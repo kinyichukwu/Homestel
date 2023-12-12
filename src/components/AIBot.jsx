@@ -141,14 +141,16 @@ const AIBot = () => {
 
   useEffect(() => {
     setLoading(true);
-    const unSub = onSnapshot(doc(db, "aichats", currentUser?.uid), (doc) => {
-      doc.exists() &&
-        doc.data().messages &&
-        doc.data().messages !== undefined &&
-        setMessages(doc.data().messages);
-      messagesRef.current?.scrollIntoView({ behavior: "smooth" });
-      setLoading(false);
-    });
+    if (currentUser) {
+      const unSub = onSnapshot(doc(db, "aichats", currentUser?.uid), (doc) => {
+        doc.exists() &&
+          doc.data().messages &&
+          doc.data().messages !== undefined &&
+          setMessages(doc.data().messages);
+        messagesRef.current?.scrollIntoView({ behavior: "smooth" });
+        setLoading(false);
+      });
+    }
 
     return () => {
       currentUser && unSub();
