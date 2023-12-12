@@ -13,6 +13,10 @@ const defaultInfo = {
   PhoneNo: "",
   WhatsappNo: "",
   Birthday: "",
+  SchoolName:"",
+  MatricNo:"",
+  Department:"",
+  Level:"",
 };
 
 const SettingsPersonalInfo = () => {
@@ -52,7 +56,11 @@ const SettingsPersonalInfo = () => {
       !personalInfo.Name ||
       !personalInfo.PhoneNo ||
       !personalInfo.WhatsappNo ||
-      !personalInfo.Birthday
+      !personalInfo.Birthday||
+      !personalInfo.SchoolName||
+      !personalInfo.Level||
+      !personalInfo.MatricNo||
+      !personalInfo.Department
     ) {
       toast.warn("Please Fill all the data");
       return;
@@ -162,6 +170,38 @@ const SettingsPersonalInfo = () => {
             value={personalInfo.Birthday}
             change={(data) =>
               setpersonalInfo((prev) => ({ ...prev, Birthday: data }))
+            }
+          />
+            <SettingsInput
+            title={"School Name"}
+            placeholder={"University Of Lagos"}
+            value={personalInfo.SchoolName}
+            change={(data) =>
+              setpersonalInfo((prev) => ({ ...prev, SchoolName: data }))
+            }
+          />
+            <SettingsInput
+            title={"Department"}
+            placeholder={"Computer Science"}
+            value={personalInfo.Department}
+            change={(data) =>
+              setpersonalInfo((prev) => ({ ...prev, Department: data }))
+            }
+          />
+          <SettingsInput
+            title={"Level"}
+            placeholder={"100 Level"}
+            value={personalInfo.Level}
+            change={(data) =>
+              setpersonalInfo((prev) => ({ ...prev, Level: data }))
+            }
+          />
+          <SettingsInput
+            title={"Matric Number"}
+            placeholder={"20100200"}
+            value={personalInfo.MatricNo}
+            change={(data) =>
+              setpersonalInfo((prev) => ({ ...prev, MatricNo: data }))
             }
           />
 
