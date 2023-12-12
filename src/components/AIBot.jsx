@@ -150,11 +150,11 @@ const AIBot = () => {
         messagesRef.current?.scrollIntoView({ behavior: "smooth" });
         setLoading(false);
       });
-    }
 
-    return () => {
-      currentUser && unSub();
-    };
+      return () => {
+        currentUser && unSub();
+      };
+    }
   }, []);
 
   useEffect(() => {
