@@ -76,7 +76,9 @@ const Login = () => {
             </div>
 
             <div className="flex items-center  justify-center mt-14">
-              <p className="text-[0.9rem] font-normal ">
+              {/**
+          
+           <p className="text-[0.9rem] font-normal ">
                 Haven't registered?{" "}
                 <a
                   className="color-p font-bold"
@@ -85,6 +87,11 @@ const Login = () => {
                 >
                   Sign up
                 </a>
+              </p>
+          */}
+
+              <p className="text-[0.78rem] font-normal opacity-80">
+                Sign Up or Log In With Google{" "}
               </p>
             </div>
           </div>

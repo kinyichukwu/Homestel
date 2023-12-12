@@ -96,7 +96,8 @@ const NavBar = () => {
       {navMenu && (
         <div
           ref={subNavRef}
-          className="absolute p-4 shadow-lg bg-white z-50 top-[7rem] w-[90%] left-[50%] translate-x-[-50%] rounded-2xl max-md:top-[8rem]"
+          className="absolute p-4 shadow-lg bg-white top-[7rem] w-[90%] left-[50%] translate-x-[-50%] rounded-2xl max-md:top-[8rem]"
+          style={{ zIndex: 999 }}
         >
           <div className="flex justify-between items-center mb-4">
             <span className="text-[#1A0823] font-bold">Choose Category </span>

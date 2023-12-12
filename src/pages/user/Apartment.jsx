@@ -21,6 +21,7 @@ import { BeatLoader, ClipLoader } from "react-spinners";
 import { UserContext } from "../../context/user.context";
 import NavBar from "../../components/NavBar";
 import BottomNav from "../../components/BottomNavBar";
+import { toast } from "react-toastify";
 
 function NoBookedAppartment() {
   return (
@@ -110,6 +111,23 @@ const Apartment = () => {
       setLoading(false);
     }, 1000);
   }, [selectedHostelFilter, data]);
+
+  const handelPromotion = (i) => {
+    if (
+      !data[i]?.promotedTill ||
+      new Date(data[i]?.promotedTill?.toDate()) < new Date()
+    ) {
+      navigate(`promote/${data[i]?.type}/${data[i]?.id}`);
+    } else if (new Date(data[i]?.promotedTill?.toDate()) > new Date()) {
+      toast.info(
+        `You have promoted this property already, please wait till the promotion expires to promote again 😎 " ${data[
+          i
+        ]?.promotedTill
+          ?.toDate()
+          .toLocaleDateString()}"`
+      );
+    }
+  };
 
   return (
     <>
@@ -249,11 +267,19 @@ const Apartment = () => {
                             </div>
                           ) : (
                             <div className="flex items-center gap-x-3">
-                              <button onClick={()=>navigate(`/user/settings/addedproperty`)} className="flex bg-[#54007B] w-[50%] text-white p-3 rounded-2xl items-center cursor-pointer justify-center gap-x-1 text-sm">
+                              <button
+                                onClick={() =>
+                                  navigate(`/user/settings/addedproperty`)
+                                }
+                                className="flex bg-[#54007B] w-[50%] text-white p-3 rounded-2xl items-center cursor-pointer justify-center gap-x-1 text-sm"
+                              >
                                 <BiEdit size={16} />
                                 <p className="text-xs">View more</p>
                               </button>
-                              <button className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm">
+                              <button
+                                className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm"
+                                onClick={() => handelPromotion(i)}
+                              >
                                 <BiSolidMegaphone size={16} />
                                 <p className="text-xs">Promote</p>
                               </button>
