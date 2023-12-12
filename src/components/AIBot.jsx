@@ -119,7 +119,7 @@ const AIBot = () => {
       );
       setmessage("");
       const data = await response.json();
-      await updateDoc(doc(db, "aichats", currentUser.uid), {
+      await updateDoc(doc(db, "aichats", currentUser?.uid), {
         messages: arrayUnion({
           id: uuid(),
           text: data.choices[0].message.content.trim(),
@@ -136,7 +136,7 @@ const AIBot = () => {
 
   useEffect(() => {
     setLoading(true);
-    const unSub = onSnapshot(doc(db, "aichats", currentUser.uid), (doc) => {
+    const unSub = onSnapshot(doc(db, "aichats", currentUser?.uid), (doc) => {
       doc.exists() &&
         doc.data().messages &&
         doc.data().messages !== undefined &&

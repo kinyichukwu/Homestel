@@ -14,7 +14,7 @@ export const UserContext = createContext({
 
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(() => {
-    const savedUser = localStorage.getItem("currentUser");
+    const savedUser = localStorage.getItem('currentUser');
     return savedUser ? JSON.parse(savedUser) : null;
   });
   const value = { currentUser, setCurrentUser };
@@ -32,18 +32,19 @@ export const UserProvider = ({ children }) => {
           }
         };
 
-        localStorage.setItem("currentUser", JSON.stringify(user));
-        setCurrentUser(user);
-        
+        localStorage.setItem('currentUser', JSON.stringify(user));
+
         navigateToProfile();
       } else {
-        localStorage.removeItem("currentUser");
+        localStorage.removeItem('currentUser');
       }
-      
+      setCurrentUser(user);
     });
 
     return unsubscribe;
   }, [navigate]);
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={value}>{children}</UserContext.Provider>
+  );
 };
