@@ -14,7 +14,7 @@ const AddNewPropertyOptions = () => {
             onClick={() => navigate("campuhsHostel")}
           >
             <button className="block w-full py-2.5 text-center text-sm color-p  focus:scale-103">
-              Campus Hostel ( Squat/ Bed space )
+              Campus Hostel ( Bed space )
             </button>
 
             <svg

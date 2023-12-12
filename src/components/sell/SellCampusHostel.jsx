@@ -46,7 +46,6 @@ const SellCampusHostel = () => {
     manPerRoom: 0,
     bathroomNo: 0,
   });
-  const [space, setspace] = useState(0);
 
   const submitProperty = async () => {
     if (!currentUser) {
@@ -78,7 +77,7 @@ const SellCampusHostel = () => {
         roomNumber: roomNumbers,
         type: "onCampus",
         gender: gender,
-        space: space === 0 ? "Squatting" : "bedspace",
+        space: "bedspace",
         sellersID: currentUser?.uid,
       });
     }
@@ -88,9 +87,6 @@ const SellCampusHostel = () => {
     <>
       <SettingsNav title="Add Hostel" navigation="/user/sell" />
       <div className="md:flex px-6 pt-[1.69rem] pb-[4rem]">
-        <p className="text-[#1A0823] font-semibold mb-[0.75rem]">Select One</p>
-        <RoundedCheckboxGroup space={(e) => setspace(e)} />
-
         <div className="">
           <hr className="text-[#00000011] my-2 " />
           <p className="text-[#1A0823] font-semibold mb-[0.7rem]">

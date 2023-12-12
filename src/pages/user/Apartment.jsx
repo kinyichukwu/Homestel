@@ -117,7 +117,9 @@ const Apartment = () => {
       !data[i]?.promotedTill ||
       new Date(data[i]?.promotedTill?.toDate()) < new Date()
     ) {
-      navigate(`promote/${data[i]?.type}/${data[i]?.id}`);
+      navigate(
+        `/user/settings/addedproperty/promote/${data[i]?.type}/${data[i]?.id}`
+      );
     } else if (new Date(data[i]?.promotedTill?.toDate()) > new Date()) {
       toast.info(
         `You have promoted this property already, please wait till the promotion expires to promote again 😎 " ${data[
@@ -157,9 +159,7 @@ const Apartment = () => {
                   <p className="font-semibold text-[15px] mb-4 max-md:hidden">
                     Spaces
                   </p>
-                  <p className="cursor-pointer max-md:w-[50%] rounded-md p-3 mb-2 text-[#1a0623] hover:bg-[#1a0623]/10 max-md:text-center max-md:rounded-full">
-                    Squatting spaces
-                  </p>
+
                   <p className="bg-[#1a0623] max-md:w-[50%] text-white cursor-pointer rounded-md p-3 mb-2 max-md:text-center max-md:rounded-full">
                     Bed spaces
                   </p>
@@ -277,7 +277,7 @@ const Apartment = () => {
                                 <p className="text-xs">View more</p>
                               </button>
                               <button
-                                className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm"
+                                className="flex w-[50%] p-3 rounded-2xl cursor-pointer items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm"
                                 onClick={() => handelPromotion(i)}
                               >
                                 <BiSolidMegaphone size={16} />

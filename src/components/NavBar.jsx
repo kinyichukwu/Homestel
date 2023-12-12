@@ -169,6 +169,57 @@ const NavBar = () => {
           )}
         </div>
       )}
+
+      <div
+        ref={subNavRef}
+        className="absolute p-4 shadow-lg bg-white top-[7rem] w-[90%] left-[50%] translate-x-[-50%] rounded-2xl max-md:top-[8rem] max-w-md"
+        style={{ zIndex: 999 }}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-[#1A0823] font-bold">Roomate Alert </span>
+
+          <IoMdClose
+            size={24}
+            className="cursor-pointer"
+            onClick={() => setnavMenu(false)}
+          />
+        </div>
+
+        <div className="flex space-x-3 w-full">
+          <div
+            className={`p-[0.62rem]  ${
+              active ? "bg-[#A445D1] text-white" : "text-[#1a0823be] bg-white"
+            }  w-full text-[.8rem] font-medium rounded-2xl cursor-pointer text-center`}
+            onClick={() => {
+              setactive((prev) => !prev);
+
+              setnavMenu(false);
+              navigate("/user/apartment");
+            }}
+          >
+            Accept
+          </div>
+          <div
+            className={`p-[0.62rem]  ${
+              !active ? "bg-[#A445D1] text-white" : "text-[#1a0823be] bg-white"
+            }  w-full text-[.8rem] font-medium rounded-2xl cursor-pointer text-center`}
+            onClick={() => {
+              setactive((prev) => !prev);
+
+              setnavMenu(false);
+              navigate("/user/hostels");
+            }}
+          >
+            Reject
+          </div>
+        </div>
+
+        <p className="mt-2">
+          Hey there🧐, Our bots have found a roomate that should fit with you
+          conciening the{" "}
+        </p>
+        
+      </div>
     </>
   ) : (
     <></>

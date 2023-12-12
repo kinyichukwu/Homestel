@@ -43,9 +43,7 @@ const Booked = () => {
               <p className="font-semibold text-[15px] mb-4 max-md:hidden">
                 Spaces
               </p>
-              <p className="cursor-pointer max-md:w-[50%] rounded-md p-3 mb-2 text-[#1a0623] hover:bg-[#1a0623]/10 max-md:text-center max-md:rounded-full">
-                Squatting spaces
-              </p>
+            
               <p className="bg-[#1a0623] max-md:w-[50%] text-white cursor-pointer rounded-md p-3 mb-2 max-md:text-center max-md:rounded-full">
                 Bed spaces
               </p>

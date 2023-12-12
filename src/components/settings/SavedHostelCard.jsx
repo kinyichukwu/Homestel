@@ -18,7 +18,7 @@ const SavedHostelCard = ({ data, setEdit }) => {
     if (currentUser?.uid !== data?.sellersID) {
       toast.error(
         "You are not authorized to delete this hostel as you are not the owner😎"
-      )
+      );
       return;
     }
 
@@ -85,7 +85,7 @@ const SavedHostelCard = ({ data, setEdit }) => {
 
         <button
           className="flex bg-[#54007B] w-[50%] text-white p-3.5 rounded-xl items-center justify-center gap-x-2 text-sm"
-          onClick={() => handelPromotion}
+          onClick={handelPromotion}
         >
           <BsStar size={18} color="#fff" />
           <p className="text-sm">Promote</p>

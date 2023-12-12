@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useLayoutEffect } from "react";
 import SavedHostelCard from "./SavedHostelCard";
 import SettingsNav from "./SettingsNav";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { db } from "../../utils/firebase/firebase.utils";
 import HostelCard from "../hostel-components/HostelCard";
 import SavedPropertyCard from "./SavedPropertyCard";
 import { ClipLoader } from "react-spinners";
+import { NavContext } from "../../context/showNav.context";
 
 const AddedProperty = ({ setEdit }) => {
   // import data from firebase
@@ -16,6 +17,8 @@ const AddedProperty = ({ setEdit }) => {
   const [hostels, sethostels] = useState(null);
   const [apartments, setapartments] = useState(null);
   const [a, seta] = useState(null);
+  const { topNav, settopNav, BottomNavBar, setBottomNavBar } =
+    useContext(NavContext);
 
   useEffect(() => {
     const usersPropertyAddedReference = async (user) => {
@@ -67,6 +70,11 @@ const AddedProperty = ({ setEdit }) => {
     usersPropertyAddedReference(currentUser);
   }, [currentUser]);
 
+  useLayoutEffect(() => {
+    settopNav(false);
+    setBottomNavBar(true);
+  }, []);
+
   return (
     <>
       {loading ? (
@@ -94,9 +102,7 @@ const AddedProperty = ({ setEdit }) => {
                 <p className="font-semibold text-[15px] mb-4 max-md:hidden">
                   Spaces
                 </p>
-                <p className="cursor-pointer max-md:w-[50%] rounded-md p-3 mb-2 text-[#1a0623] hover:bg-[#1a0623]/10 max-md:text-center max-md:rounded-full">
-                  Squatting spaces
-                </p>
+
                 <p className="bg-[#1a0623] max-md:w-[50%] text-white cursor-pointer rounded-md p-3 mb-2 max-md:text-center max-md:rounded-full">
                   Bed spaces
                 </p>

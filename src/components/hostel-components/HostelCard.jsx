@@ -1,11 +1,38 @@
-import { BiDollar, BiSolidBookmarkAlt } from "react-icons/bi";
+import { useContext } from "react";
+import {
+  BiDollar,
+  BiEdit,
+  BiSolidBookmarkAlt,
+  BiSolidMegaphone,
+} from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../context/user.context";
+import { toast } from "react-toastify";
 
 const HostelCard = ({ data }) => {
   const navigate = useNavigate();
-  console.log(data);
+  const { currentUser } = useContext(UserContext);
+
   const { gender, hostelName, roomNumber, space, type, id } = data;
   const { price, manPerRoom, bathroomNo, RoomNo } = data.roomNumber;
+
+  const handelPromotion = () => {
+    if (
+      !data?.promotedTill ||
+      new Date(data?.promotedTill?.toDate()) < new Date()
+    ) {
+      navigate(
+        `/user/settings/addedproperty/promote/${data?.type}/${data?.id}`
+      );
+    } else if (new Date(data?.promotedTill?.toDate()) > new Date()) {
+      toast.info(
+        `You have promoted this property already, please wait till the promotion expires to promote again 😎 " ${data?.promotedTill
+          ?.toDate()
+          .toLocaleDateString()}"`
+      );
+    }
+  };
+
   return (
     <div className="bg-[#f6f6f6] p-6 rounded-2xl w-full">
       <div
@@ -29,16 +56,36 @@ const HostelCard = ({ data }) => {
       >
         N {price}
       </h3>
-      <div className="flex items-center gap-x-3">
-        <button className="flex bg-[#54007B] w-[50%] text-white p-3.5 rounded-xl items-center justify-center gap-x-2 text-sm">
-          <BiDollar size={20} />
-          <p className="text-sm">Buy Now</p>
-        </button>
-        <button className="flex w-[50%] p-3.5 rounded-xl items-center justify-center gap-x-2 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm">
-          <BiSolidBookmarkAlt size={20} />
-          <p className="text-sm">Book</p>
-        </button>
-      </div>
+
+      {currentUser?.uid !== data.sellersID ? (
+        <div className="flex items-center gap-x-3">
+          <button className="flex bg-[#54007B] w-[50%] text-white p-3 rounded-2xl items-center cursor-pointer justify-center gap-x-1 text-sm">
+            <BiDollar size={16} />
+            <p className="text-xs">View Contact</p>
+          </button>
+          <button className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm">
+            <BiSolidBookmarkAlt size={16} />
+            <p className="text-xs">Unbook</p>
+          </button>
+        </div>
+      ) : (
+        <div className="flex items-center gap-x-3">
+          <button
+            onClick={() => navigate(`/user/settings/addedproperty`)}
+            className="flex bg-[#54007B] w-[50%] text-white p-3 rounded-2xl items-center cursor-pointer justify-center gap-x-1 text-sm"
+          >
+            <BiEdit size={16} />
+            <p className="text-xs">View more</p>
+          </button>
+          <button
+            className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] cursor-pointer border-[#54007B] bg-transparent text-[#54007B] text-sm"
+            onClick={() => handelPromotion()}
+          >
+            <BiSolidMegaphone size={16} />
+            <p className="text-xs">Promote</p>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

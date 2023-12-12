@@ -36,8 +36,6 @@ const activeSpace =
 const inactiveSpace =
   "cursor-pointer max-md:w-[50%] rounded-md p-3 mb-2 text-[#1a0623] hover:bg-[#1a0623]/10 max-md:text-center max-md:rounded-full text-[.8rem] mr-[.1rem]";
 
-const hostelSpace = ["Squatting spaces", "Bed spaces"];
-
 const Hostels = () => {
   const { topNav, settopNav, BottomNavBar, setBottomNavBar } =
     useContext(NavContext);
@@ -48,7 +46,7 @@ const Hostels = () => {
   }, []);
 
   const hostelFilyer = ["Male Hostel", "Female Hostel"];
-  const [selectedHostelFilter, setselectedHostelFilter] = useState([0, 0]);
+  const [selectedHostelFilter, setselectedHostelFilter] = useState(0);
 
   // fetch data from firestore
   const [data, setData] = useState([]);
@@ -102,39 +100,18 @@ const Hostels = () => {
   // filter fetched data into male hostels and apartment
 
   useEffect(() => {
-    if (selectedHostelFilter[1] === 0 && selectedHostelFilter[0] === 0) {
+    if (selectedHostelFilter === 0) {
       setLoading(true);
-      setFilteredData(
-        data.filter(
-          (ite, i) => ite?.space === "Squatting" && ite?.gender === "MALE"
-        )
-      );
-    } else if (selectedHostelFilter[1] === 0 && selectedHostelFilter[0] === 1) {
+      setFilteredData(data.filter((ite, i) => ite?.gender === "MALE"));
+    } else if (selectedHostelFilter === 1) {
       setLoading(true);
-      setFilteredData(
-        data.filter(
-          (ite, i) => ite?.space === "Squatting" && ite?.gender === "FEMALE"
-        )
-      );
-    } else if (selectedHostelFilter[1] === 1 && selectedHostelFilter[0] === 0) {
-      setLoading(true);
-      setFilteredData(
-        data.filter(
-          (ite, i) => ite?.space === "bedspace" && ite?.gender === "MALE"
-        )
-      );
-    } else if (selectedHostelFilter[1] === 1 && selectedHostelFilter[0] === 1) {
-      setFilteredData(
-        data.filter(
-          (ite, i) => ite?.space === "bedspace" && ite?.gender === "FEMALE"
-        )
-      );
+      setFilteredData(data.filter((ite, i) => ite?.gender === "FEMALE"));
     }
 
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }, [selectedHostelFilter[0], selectedHostelFilter[1], data]);
+  }, [selectedHostelFilter, data]);
 
   const activei =
     "bg-[#54007B]/10 hover:bg-[#54007B]/10 max-md:text-white max-md:bg-[#A445D1] max-md:w-[50%]  cursor-pointer rounded-md p-3 mb-2 max-md:rounded-none text-[#1a0623] max-md:text-center text-[.8rem]";
@@ -212,40 +189,26 @@ const Hostels = () => {
             </div>
           </div>
         </div>
-        <div className="w-[20%] h-screen max-md:w-full max-md:relative  max-md:h-fit fixed p-5 max-md:p-0 py-4 bg-[#54007B]/[3%]">
-          <div className="max-md:flex"><p className="font-semibold text-[15px] mb-4 max-md:hidden">Filter</p>
-          {hostelFilyer.map((item, i) => {
-            return (
-              <p
-                className={selectedHostelFilter[0] === i ? activei : inactivei}
-                onClick={() =>
-                  setselectedHostelFilter([i, selectedHostelFilter[1]])
-                }
-              >
-                {item}
-              </p>
-            );
-          })}</div>
-          <div className="max-md:p-2 max-md:flex max-md:items-center md:mt-8">
-          <p className="font-semibold text-[15px] mb-4 max-md:hidden">Spaces</p>
 
-          {hostelSpace.map((item, i) => {
-            return (
-              <p
-                className={
-                  selectedHostelFilter[1] === i ? activeSpace : inactiveSpace
-                }
-                onClick={() =>
-                  setselectedHostelFilter([selectedHostelFilter[0], i])
-                }
-              >
-                {item}
-              </p>
-            );
-          })}
+        <div className="w-[20%] h-screen max-md:w-full max-md:relative  max-md:h-fit fixed p-5 max-md:p-0 py-4 bg-[#54007B]/[3%]">
+          <div className="max-md:flex">
+            <p className="font-semibold text-[15px] mb-4 max-md:hidden">
+              Filter
+            </p>
+            {hostelFilyer.map((item, i) => {
+              return (
+                <p
+                  className={selectedHostelFilter === i ? activei : inactivei}
+                  onClick={() => setselectedHostelFilter(i)}
+                >
+                  {item}
+                </p>
+              );
+            })}
+          </div>
+          <div className="max-md:p-2 max-md:flex max-md:items-center md:mt-8"></div>
         </div>
-        </div>
-        
+
         <div
           className="ml-[20%] max-md:w-full w-full max-md:ml-0 p-5"
           style={{
@@ -253,10 +216,7 @@ const Hostels = () => {
           }}
         >
           <h3 className="text-xl font-bold flex items-center gap-x-2">
-            {hostelFilyer[selectedHostelFilter[0]]}{" "}
-            <span className="font-medium text-[16px]">
-              &gt; {hostelSpace[selectedHostelFilter[1]]}
-            </span>{" "}
+            {hostelFilyer[selectedHostelFilter]}{" "}
           </h3>
           <div className="">
             {loading ? (
@@ -265,10 +225,7 @@ const Hostels = () => {
               </div>
             ) : !loading && filteredData.length < 1 ? (
               <div className="h-[80vh] w-full mx-auto flex justify-center items-center">
-                <p>
-                  No {hostelFilyer[selectedHostelFilter[0]]} with{" "}
-                  {hostelSpace[selectedHostelFilter[1]]} found
-                </p>
+                <p>No {hostelFilyer[selectedHostelFilter]} found</p>
               </div>
             ) : (
               <div className="grid grid-cols-3 max-md:grid-cols-1 max-xl:grid-cols-2 gap-5 my-5">
