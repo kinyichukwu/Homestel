@@ -23,7 +23,6 @@ function FindRoomate() {
       const cities = [];
       querySnapshot.forEach((doc) => {
         cities.push(doc.data());
-        
       });
       console.log(cities);
     });
@@ -230,9 +229,9 @@ const NavBar = () => {
         </div>
       )}
 
-    
-     <FindRoomate />
-   
+      {/**
+   <FindRoomate />
+  */}
     </>
   ) : (
     <></>
