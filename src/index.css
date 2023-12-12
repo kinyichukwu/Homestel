@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter";
+  transition: .5s all;
+}
+
+.bg-color-p {
+  background: #54007b;
+}
+
+.color-p {
+    color: #54007B;
+    opacity: 0.8999999761581421;
+}
+
+.color-text{
+  color:  #1A0823;
+  opacity: 0.8999999761581421;
+}

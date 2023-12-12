@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter";
+}
+
+pre {
+  font-family: "Inter" !important;
+}
+
+body::-webkit-scrollbar {
+  width: 0.2rem;
+}
+body::-webkit-scrollbar-thumb {
+  border: 1px solid #54007b;
+  border-radius: 0.3rem;
+  background-color: #f0cfff;
+}
+body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px white;
+}
+
+*::-webkit-scrollbar {
+  width: 0.2rem;
+}
+*::-webkit-scrollbar-thumb {
+  border: 1px solid #54007b;
+  border-radius: 0.3rem;
+  background-color: #f0cfff;
+}
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px white;
+}
+
+.no-spinner {
+  /* Remove the default spinner arrows */
+  -webkit-appearance: none;
+  appearance: none;
+
+  /* Target the inner and outer spinner buttons for webkit browsers */
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    display: none; /* Hide the spinner arrows */
+  }
+}
