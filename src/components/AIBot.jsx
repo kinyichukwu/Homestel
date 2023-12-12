@@ -23,6 +23,7 @@ import { UserContext } from "../context/user.context";
 import { v4 as uuid } from "uuid";
 import { BeatLoader } from "react-spinners";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AIBot = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -74,6 +75,10 @@ const AIBot = () => {
 
   const sendMessage = async (userMessage) => {
     console.log(hostels);
+    if (!currentUser) {
+      toast.error("You need to be logged in to use this feature");
+      return;
+    }
     messagesRef.current?.scrollIntoView({ behavior: "smooth" });
     setMessages([
       ...messages,
@@ -146,7 +151,7 @@ const AIBot = () => {
     });
 
     return () => {
-      unSub();
+      currentUser && unSub();
     };
   }, []);
 
