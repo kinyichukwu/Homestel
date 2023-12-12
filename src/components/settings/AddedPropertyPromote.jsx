@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/user.context";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase/firebase.utils";
+import axios from "axios";
 
 const AddedPropertyPromote = ({ propertyToPromote }) => {
   // bot nav
@@ -29,7 +30,6 @@ const AddedPropertyPromote = ({ propertyToPromote }) => {
   }, []);
 
   const { pathname } = useLocation();
-
 
   //   pathname.split("/")[5] === "hostel", pathname.split("/")[5] === "offCampusHostel", pathname.split("/")[5] === "offCampus"
 
@@ -95,36 +95,49 @@ const PromoteProperty = ({ propertyToPromote }) => {
       return;
     }
 
-    console.log(new Date(new Date().setDate(new Date().getDate() + days[i])));
+    try {
+      const res = await axios.post(
+        "https://chi-money-api.vercel.app/payment/initiate",
+        {
+          amount: amm[i],
+          email: currentUser?.email,
+          phone: currentUser?.phoneNumber,
+          name: currentUser?.displayName,
+          reference: pathname.split("/")[6],
+        }
+      );
+    } catch (err) {}
 
-    // check if doc is in firebase
+    if (res) {
+      // check if doc is in firebase
 
-    await promotePropertyDb(pathname.split("/")[5]);
+      await promotePropertyDb(pathname.split("/")[5]);
 
-    async function promotePropertyDb(pType) {
-      try {
-        const colRef = await doc(
-          db,
-          `${pType === "hostel" ? "hostel" : "property"}`,
-          pathname.split("/")[6]
-        );
+      async function promotePropertyDb(pType) {
+        try {
+          const colRef = await doc(
+            db,
+            `${pType === "onCampus" ? "hostel" : "property"}`,
+            pathname.split("/")[6]
+          );
 
-        await updateDoc(colRef, {
-          promotedTill: new Date(
-            new Date().setDate(new Date().getDate() + days[i])
-          ),
-        })
-          .then(async () => {
-            toast.success(` Promoted Successfully 😁`);
+          await updateDoc(colRef, {
+            promotedTill: new Date(
+              new Date().setDate(new Date().getDate() + days[i])
+            ),
           })
-          .catch((e) => {
-            toast.error("An error occured");
-            console.log(e);
-          });
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
+            .then(async () => {
+              toast.success(` Promoted Successfully 😁`);
+            })
+            .catch((e) => {
+              toast.error("An error occured");
+              console.log(e);
+            });
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+        }
       }
     }
   };

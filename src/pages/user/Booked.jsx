@@ -13,7 +13,8 @@ const Booked = () => {
     setBottomNavBar(true);
   }, []);
 
-  const [booked, setbooked] = useState(false);
+  const [booked, setbooked] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   return (
     <section>
@@ -43,7 +44,7 @@ const Booked = () => {
               <p className="font-semibold text-[15px] mb-4 max-md:hidden">
                 Spaces
               </p>
-            
+
               <p className="bg-[#1a0623] max-md:w-[50%] text-white cursor-pointer rounded-md p-3 mb-2 max-md:text-center max-md:rounded-full">
                 Bed spaces
               </p>
@@ -51,7 +52,7 @@ const Booked = () => {
           )}
         </div>
 
-        {booked ? (
+        {booked?.length > 0 ? (
           <div className="w-[80%] ml-[20%] max-md:w-full max-md:ml-0 p-5">
             <h3 className="text-xl font-bold flex items-center gap-x-2">
               Booked{" "}

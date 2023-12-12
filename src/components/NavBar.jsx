@@ -7,13 +7,38 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { useClickAway } from "react-use";
 import logo from "../assets/Homestel.svg";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { db } from "../utils/firebase/firebase.utils";
 
 function FindRoomate() {
+  const { currentUser } = useContext(UserContext);
+  const [show, setshow] = useState(false);
+
+  useEffect(() => {
+    const q = query(
+      collection(db, "property"),
+      where("bookedBy", "array-contains", currentUser?.uid)
+    );
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const cities = [];
+      querySnapshot.forEach((doc) => {
+        cities.push(doc.data());
+        
+      });
+      console.log(cities);
+    });
+
+    return () => {
+      currentUser?.uid && unsubscribe();
+    };
+  }, []);
+
   return (
     <div
-      className="absolute p-4 shadow-lg bg-white top-[7rem] w-[90%] left-[50%] translate-x-[-50%] rounded-2xl max-md:top-[8rem] max-w-md"
+      className="absolute p-4 shadow-lg bg-white top-[7rem] w-[90%] left-[50%] translate-x-[-50%] rounded-2xl max-md:top-[8rem] max-w-md transition-transform"
       style={{
         zIndex: 999,
+        top: "7rem",
       }}
     >
       <div className="flex justify-between items-center mb-4">
@@ -205,9 +230,9 @@ const NavBar = () => {
         </div>
       )}
 
-      {/** 
+    
      <FindRoomate />
-    */}
+   
     </>
   ) : (
     <></>
