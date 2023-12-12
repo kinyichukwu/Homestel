@@ -1,0 +1,21 @@
+.settings-input {
+  .personal-info {
+    color: #54007b;
+    font-family: Inter;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 180.5%; /* 1.805rem */
+    letter-spacing: 0.005rem;
+    text-decoration-line: underline;
+  }
+
+  &-input {
+    border: 1px solid #00000086;
+   
+  }
+}
+
+.profile-white-color{
+  background: #F6F6F6;
+}
