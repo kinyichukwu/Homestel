@@ -34,6 +34,7 @@ import { db } from "../../utils/firebase/firebase.utils";
 import { ChatContext } from "../../context/chat.context";
 import { UserContext } from "../../context/user.context";
 import { toast } from "react-toastify";
+import { NavContext } from "../../context/showNav.context";
 
 //  <BsBookmark />
 
@@ -51,9 +52,15 @@ const Description = () => {
   const getSlug =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
 
+  const { settopNav, setBottomNavBar } = useContext(NavContext);
+
   useEffect(() => {
     // fetch data from firebase
     setloading(true);
+
+    settopNav(false);
+
+    setBottomNavBar(true);
 
     const fetchApartment = async () => {
       try {

@@ -33,6 +33,7 @@ import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import { UserContext } from "../../context/user.context";
 import { ChatContext } from "../../context/chat.context";
+import { NavContext } from "../../context/showNav.context";
 
 //  <BsBookmark />
 
@@ -54,6 +55,7 @@ const HostelDescription = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
+  const { settopNav, setBottomNavBar } = useContext(NavContext);
 
   const getSlug =
     location.pathname.split("/")[location.pathname.split("/").length - 1];
@@ -61,6 +63,9 @@ const HostelDescription = () => {
   useEffect(() => {
     // fetch data from firebase
     setloading(true);
+
+    settopNav(false);
+    setBottomNavBar(true);
 
     const fetchApartment = async () => {
       try {

@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from "react";
 import SettingsNav from "../settings/SettingsNav";
 import RoundedCheckboxGroup from "../utilities/RoundedCheckboxGroup";
 import SettingsInput from "../settings/Input";
@@ -11,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/user.context";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase/firebase.utils";
+import { NavContext } from "../../context/showNav.context";
 
 const defaultInfo = {
   Name: "",
@@ -20,6 +27,15 @@ const defaultInfo = {
 };
 
 const SellCampusHostel = () => {
+  const {
+    topNav,
+    settopNav,
+    BottomNavBar,
+    setBottomNavBar,
+    navText,
+    setnavText,
+  } = useContext(NavContext);
+
   const { adding, addProperty, addHostel } = useAddNewProperty();
   const [propertyInfo, setPropertyInfo] = useState(defaultInfo);
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -47,7 +63,12 @@ const SellCampusHostel = () => {
     bathroomNo: 0,
   });
 
+  useLayoutEffect(() => {
+    settopNav(false);
+  }, []);
+
   const submitProperty = async () => {
+    setLoading(true);
     if (!currentUser) {
       toast.error("Please Login to continue");
       navigate("/auth/login");
@@ -81,6 +102,7 @@ const SellCampusHostel = () => {
         sellersID: currentUser?.uid,
       });
     }
+    setLoading(false);
   };
 
   return (
@@ -245,11 +267,11 @@ const SellCampusHostel = () => {
             }
           />
           <button
-            disabled={loading || adding}
+            disabled={loading}
             onClick={() => submitProperty()}
-            className="py-[0.9rem] text-center w-full my-12 rounded-2xl bg-[#54007B] flex items-center justify-center text-white font-medium hover:bg-[#54007bbf] disabled:opacity-60 active:bg-[#54007B]"
+            className="py-[0.9rem] text-center w-full my-12 cursor-pointer rounded-2xl bg-[#54007B] flex items-center justify-center text-white font-medium hover:bg-[#54007bbf] disabled:opacity-60 active:bg-[#54007B]"
           >
-            {loading || adding ? (
+            {loading ? (
               <BeatLoader size={14} color="white" />
             ) : (
               "Add New Property"

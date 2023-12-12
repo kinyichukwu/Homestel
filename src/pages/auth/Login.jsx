@@ -30,6 +30,7 @@ const Login = () => {
       const res = await getDoc(doc(db, "userChats", user.uid));
       if (!res.exists()) {
         await setDoc(doc(db, "userChats", user.uid), {});
+        await setDoc(doc(db, "aichats", user.uid), {});
       }
 
       setCurrentUser(user);

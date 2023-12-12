@@ -193,7 +193,7 @@ const AIBot = () => {
   };
 
   return (
-    <div className="fixed bottom-10 right-10 max-md:right-5 z-[99999] flex flex-col items-end max-w-[350px] max-md:max-w-[90%] w-full max-md:bottom-[7rem]">
+    <div className="fixed bottom-10 right-10 max-md:right-5 z-[99999] flex flex-col items-end max-w-[350px] max-md:max-w-[90%] max-md:bottom-[7rem] w-fit">
       {modalIsOpen && (
         <div
           ref={modalRef}

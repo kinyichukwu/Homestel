@@ -8,6 +8,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/user.context";
 import { toast } from "react-toastify";
+import { db } from "../../utils/firebase/firebase.utils.js";
+import { doc, updateDoc, arrayRemove, arrayUnion } from "firebase/firestore";
 
 const HostelCard = ({ data }) => {
   const navigate = useNavigate();
@@ -63,9 +65,46 @@ const HostelCard = ({ data }) => {
             <BiDollar size={16} />
             <p className="text-xs">View Contact</p>
           </button>
-          <button className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm">
+
+          <button
+            className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm"
+            onClick={async () => {
+              if (data?.bookedBy?.includes(currentUser?.uid)) {
+                const docRef = doc(db, "hostel", data.id);
+                const userRef = doc(db, "users", currentUser?.uid);
+                await updateDoc(docRef, {
+                  bookedBy: arrayRemove(currentUser?.uid),
+                });
+
+                await updateDoc(userRef, {
+                  bookedProperty: arrayRemove(data.id),
+                });
+
+                toast.success("Unbooked Successfully 😁");
+              } else {
+                const docRef = doc(db, "hostel", data.id);
+                const userRef = doc(db, "users", currentUser?.uid);
+                await updateDoc(docRef, {
+                  bookedBy: arrayUnion(currentUser?.uid),
+                });
+
+                await updateDoc(userRef, {
+                  bookedProperty: arrayUnion(data.id),
+                });
+
+                toast.success("Booked Successfully 😁");
+              }
+
+              window.location.reload();
+            }}
+          >
             <BiSolidBookmarkAlt size={16} />
-            <p className="text-xs">Unbook</p>
+
+            {data?.bookedBy?.includes(currentUser?.uid) ? (
+              <p className="text-xs">Unbook</p>
+            ) : (
+              <p className="text-xs">Book</p>
+            )}
           </button>
         </div>
       ) : (

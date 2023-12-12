@@ -13,10 +13,16 @@ import NoBooked from "../../components/booked-components/NoBooked";
 import AppartmentCard from "../../components/appartment-components/AppartmentCard";
 import { NavContext } from "../../context/showNav.context";
 import { useNavigate } from "react-router-dom";
-import { arrayUnion } from "firebase/firestore";
+import { arrayUnion, arrayRemove } from "firebase/firestore";
 
 import { db } from "../../utils/firebase/firebase.utils";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { BeatLoader, ClipLoader } from "react-spinners";
 import { UserContext } from "../../context/user.context";
 import NavBar from "../../components/NavBar";
@@ -260,9 +266,59 @@ const Apartment = () => {
                                 <BiDollar size={16} />
                                 <p className="text-xs">View Contact</p>
                               </button>
-                              <button className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm">
+                              <button
+                                className="flex w-[50%] p-3 rounded-2xl items-center justify-center gap-x-1 border-[1px] border-[#54007B] bg-transparent text-[#54007B] text-sm"
+                                onClick={async () => {
+                                  if (
+                                    item?.bookedBy?.includes(currentUser?.uid)
+                                  ) {
+                                    const docRef = doc(
+                                      db,
+                                      "property",
+                                      item.id
+                                    );
+                                    const userRef = doc(
+                                      db,
+                                      "users",
+                                      currentUser?.uid
+                                    );
+                                    await updateDoc(docRef, {
+                                      bookedBy: arrayRemove(currentUser?.uid),
+                                    });
+
+                                    await updateDoc(userRef, {
+                                      bookedProperty: arrayRemove(item.id),
+                                    });
+
+                                    toast.success("Unbooked Successfully 😁");
+                                  } else {
+                                    const docRef = doc(db, "property", item.id);
+                                    const userRef = doc(
+                                      db,
+                                      "users",
+                                      currentUser?.uid
+                                    );
+                                    await updateDoc(docRef, {
+                                      bookedBy: arrayUnion(currentUser?.uid),
+                                    });
+
+                                    await updateDoc(userRef, {
+                                      bookedProperty: arrayUnion(item.id),
+                                    });
+
+                                    toast.success("Booked Successfully 😁");
+                                  }
+
+                                  window.location.reload();
+                                }}
+                              >
                                 <BiSolidBookmarkAlt size={16} />
-                                <p className="text-xs">Unbook</p>
+
+                                {item?.bookedBy?.includes(currentUser?.uid) ? (
+                                  <p className="text-xs">Unbook</p>
+                                ) : (
+                                  <p className="text-xs">Book</p>
+                                )}
                               </button>
                             </div>
                           ) : (

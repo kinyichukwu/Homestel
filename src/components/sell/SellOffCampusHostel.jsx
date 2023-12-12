@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import SettingsNav from "../settings/SettingsNav";
 import RoundedCheckboxGroup from "../utilities/RoundedCheckboxGroup";
 import SettingsInput from "../settings/Input";
@@ -11,6 +11,7 @@ import { UserContext } from "../../context/user.context";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase/firebase.utils";
+import { NavContext } from "../../context/showNav.context";
 
 const defaultInfo = {
   Name: "",
@@ -32,6 +33,7 @@ const SellOffCampusHostel = () => {
   const [video, setVideo] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedOption, setSelectedOption] = useState("MALE");
+  const {settopNav} = useContext(NavContext)
   const [roomNumbers, setRoomNumbers] = useState({
     price: 0,
     kitchen: 0,
@@ -115,6 +117,10 @@ const SellOffCampusHostel = () => {
   const handleOptionChange = (value) => {
     setSelectedOption(value);
   };
+
+  useLayoutEffect(() => {
+    settopNav(false);
+  }, []);
 
   return (
     <>
