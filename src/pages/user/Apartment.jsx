@@ -64,7 +64,7 @@ const Apartment = () => {
 
   // fetch data from firestore
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
 

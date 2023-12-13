@@ -74,6 +74,16 @@ const PromoteProperty = ({ propertyToPromote }) => {
     "₦30,000",
   ];
 
+  const chiAmm = [
+    "NGN500",
+    "NGN1500",
+    "NGN3000",
+    "NGN5000",
+    "NGN10000",
+    "NGN20000",
+    "NGN30000",
+  ];
+
   const days = [1, 3, 7, 14, 30, 60, 90];
 
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -95,51 +105,59 @@ const PromoteProperty = ({ propertyToPromote }) => {
       return;
     }
 
-    try {
-      const res = await axios.post(
-        "https://chi-money-api.vercel.app/payment/initiate",
-        {
-          amount: amm[i],
-          email: currentUser?.email,
-          phone: currentUser?.phoneNumber,
-          name: currentUser?.displayName,
-          reference: pathname.split("/")[6],
-        }
-      );
-    } catch (err) {}
+    // try {
+    //   console.log(currentUser?.email, currentUser?.phoneNumber);
+    //   const res = await axios.post(
+    //     "https://chi-money-api.vercel.app/payment/initiate",
+    //     {
+    //       amount: chiAmm[i],
+    //       payerEmail: currentUser?.email,
+    //       phone: currentUser?.phoneNumber,
+    //       name: currentUser?.displayName,
+    //       // reference: pathname.split("/")[6],
+    //       redirect_url: `https://homestel.vercel.app/user/apartment/`,
+    //       // value_in_usd: pathname
+    //     }
+    //   );
 
-    if (res) {
-      // check if doc is in firebase
+    //   console.log(res.data);
+    //   toast.success(
+    //     "Payment Initiated, kindly go to your chimoney account to complete payment"
+    //   );
+    // } catch (err) {}
 
-      await promotePropertyDb(pathname.split("/")[5]);
+    // check if doc is in firebase
 
-      async function promotePropertyDb(pType) {
-        try {
-          const colRef = await doc(
-            db,
-            `${pType === "onCampus" ? "hostel" : "property"}`,
-            pathname.split("/")[6]
-          );
+    await promotePropertyDb(pathname.split("/")[5]);
 
-          await updateDoc(colRef, {
-            promotedTill: new Date(
-              new Date().setDate(new Date().getDate() + days[i])
-            ),
+    async function promotePropertyDb(pType) {
+      try {
+        const colRef = await doc(
+          db,
+          `${pType === "onCampus" ? "hostel" : "property"}`,
+          pathname.split("/")[6]
+        );
+
+        await updateDoc(colRef, {
+          promotedTill: new Date(
+            new Date().setDate(new Date().getDate() + days[i])
+          ),
+        })
+          .then(async () => {
+            toast.success(` Promoted Successfully 😁`);
           })
-            .then(async () => {
-              toast.success(` Promoted Successfully 😁`);
-            })
-            .catch((e) => {
-              toast.error("An error occured");
-              console.log(e);
-            });
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setLoading(false);
-        }
+          .catch((e) => {
+            toast.error("An error occured");
+            console.log(e);
+          });
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
+
+    setLoading(false);
   };
 
   return (
