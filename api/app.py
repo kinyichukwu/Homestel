@@ -34,7 +34,6 @@ def payment():
             "accept": "application/json",
             "content-type": "application/json",
             "X-API-KEY": os.environ.get("API_KEY")
-            # "X-API-KEY": "821ae70751f3e07be57a887ad61823b39c9faf1211c72d6ba62e2661d752b8da"
         }
 
         response = requests.post(url, json=payload, headers=headers)
